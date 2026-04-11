@@ -8,13 +8,13 @@ PanelWindow {
 	anchors.top: true
 	anchors.right: true
 	anchors.left: true
-	implicitHeight: 40
-	color: "#1f1f1d"
+	implicitHeight: 30
+	//color: "#1f1f1d"
 	Rectangle {
 		color: "#1f1f1d"
 		anchors.fill: parent
 	border.width: 2
-	border.color: "#b9b9b9"
+	border.color: "#cd73fd"
 }
 
 	RowLayout {
