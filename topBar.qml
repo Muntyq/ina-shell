@@ -62,15 +62,21 @@ PanelWindow {
 		//System info buttons
 		RowLayout {
 			anchors.left: parent
+
+			//Battery
 			Rectangle {
+				id: batteryText
+				color: "#1f1f1d"
 				implicitHeight: 20
 				implicitWidth: 30
+				property var battery: UPower.displayDevice
+				visible: battery.isLaptopBattery ? true : false
+
 				Text {
 					anchors.centerIn: parent
 					id: batteryPercentage
-					property var battery: UPower.displayDevice
-					text: battery.ready ? Math.round(battery.percentage)*100 + "%" : "..."
-					color: battery.percentage < 20 ? "#f7768e" : "#7aa2f7"
+					text: batteryText.battery.ready ? Math.round(batteryText.battery.percentage) + "%" : "..."
+					color: batteryText.battery < 15 ? "#f7768e" : "#b9b9b9"
 					anchors.verticalCenter: parent.verticalCenter
 					font { pixelSize: 14 }
 				}
@@ -78,6 +84,6 @@ PanelWindow {
 		}
 		
 		//Fill remainding space
-		Item { Layout.fillWidth: true }
+		//Item { Layout.fillWidth: true }
 	}
 }
