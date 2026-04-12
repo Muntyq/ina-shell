@@ -19,49 +19,69 @@ PanelWindow {
 		border.color: "#cd73fd"
 	}
 
+	//Main Layout
 	RowLayout {
 		anchors.fill: parent
 		anchors.verticalCenter: parent
 
-		Repeater {
+		RowLayout {
 			//Create as many buttons as existing workspaces
-			model: Hyprland.workspaces.values.length
-			
-			Rectangle {
-				id: workspaceButton
-				color: "#1f1f1d"
-				implicitHeight: 20
-				implicitWidth: 40
-				border.width: 1
-				border.color: workspaceButtonInteract.containsMouse ? "#cd73fd" : "#b9b9b9"
+			Repeater {
+				model: Hyprland.workspaces.values.length
+				
+				Rectangle {
+					id: workspaceButton
+					color: "#1f1f1d"
+					implicitHeight: 20
+					implicitWidth: 40
+					border.width: 1
+					border.color: workspaceButtonInteract.containsMouse ? "#cd73fd" : "#b9b9b9"
 
-				property var workspace: Hyprland.workspaces.values[index]
-				property bool isActive: Hyprland.focusedWorkspace?.id === workspace.id
+					property var workspace: Hyprland.workspaces.values[index]
+					property bool isActive: Hyprland.focusedWorkspace?.id === workspace.id
 
-				MouseArea {
-					id: workspaceButtonInteract
-					anchors.fill: parent
-					hoverEnabled: true	
-					onClicked: Hyprland.dispatch("workspace " + workspace.id)
+					MouseArea {
+						id: workspaceButtonInteract
+						anchors.fill: parent
+						hoverEnabled: true	
+						onClicked: Hyprland.dispatch("workspace " + workspace.id)
+
+						}
+
+					Text {
+						anchors.centerIn: parent
+						//Get workspace id, if its active and print with correct color
+						//property var workspace: Hyprland.workspaces.values[index]
+						//property bool isActive: Hyprland.focusedWorkspace?.id === workspace.id
+						text: "[  " + workspace.id + "  ]"
+						color: isActive ? "#cd73fd" : "#b9b9b9"
+						font { pixelSize: 14 }
 
 					}
-
-				Text {
-					anchors.centerIn: parent
-					//Get workspace id, if its active and print with correct color
-					//property var workspace: Hyprland.workspaces.values[index]
-					//property bool isActive: Hyprland.focusedWorkspace?.id === workspace.id
-					text: "[  " + workspace.id + "  ]"
-					color: isActive ? "#cd73fd" : "#b9b9b9"
-					font { pixelSize: 14 }
-
 				}
 			}
 		}
 
+		Item { Layout.fillWidth: true }
+
+		//Clock
+		Rectangle {
+			//anchors.left: parent
+			implicitHeight: 20
+			color: "#1f1f1d"
+
+			Text {
+				SystemClock {precision: SystemClock.Minutes; id: clock }
+				text: Qt.formatDateTime(clock.date, "hh:mm - yyyy-MM-dd")
+				color: "#b9b9b9"
+				font { pixelSize: 14 }
+			}
+		}
+
+		Item { Layout.fillWidth: true }
+
 		//System info buttons
 		RowLayout {
-			anchors.left: parent
 
 			//Battery
 			Rectangle {
@@ -82,8 +102,5 @@ PanelWindow {
 				}
 			}
 		}
-		
-		//Fill remainding space
-		//Item { Layout.fillWidth: true }
 	}
 }
