@@ -10,30 +10,36 @@ PanelWindow {
 	anchors.right: true
 	anchors.left: true
 	implicitHeight: 30
-	//color: "#1f1f1d"
+
+	//define colors
+	property var lightPurple: "#cd73fd"
+	property var lightGray: "#b9b9b9"
+	property var darkGray: "#1f1f1f"
+	property var red: "#f7768e"
 
 	Rectangle {
-		color: "#1f1f1d"
+		color: darkGray
 		anchors.fill: parent
 		border.width: 2
-		border.color: "#cd73fd"
+		border.color: lightPurple
 	}
 
 	RowLayout {
 		anchors.left: parent.left
 		anchors.verticalCenter: parent.verticalCenter
 		anchors.leftMargin: 6
+
 		//Create as many buttons as existing workspaces
 		Repeater {
 			model: Hyprland.workspaces.values.length
 			
 			Rectangle {
 				id: workspaceButton
-				color: "#1f1f1d"
+				color: darkGray
 				implicitHeight: 20
 				implicitWidth: 40
 				border.width: 1
-				border.color: workspaceButtonInteract.containsMouse ? "#cd73fd" : "#b9b9b9"
+				border.color: workspaceButtonInteract.containsMouse ? lightPurple : lightGray
 
 				property var workspace: Hyprland.workspaces.values[index]
 				property bool isActive: Hyprland.focusedWorkspace?.id === workspace.id
@@ -44,7 +50,7 @@ PanelWindow {
 					hoverEnabled: true	
 					onClicked: Hyprland.dispatch("workspace " + workspace.id)
 
-					}
+				}
 
 				Text {
 					anchors.centerIn: parent
@@ -52,7 +58,7 @@ PanelWindow {
 					//property var workspace: Hyprland.workspaces.values[index]
 					//property bool isActive: Hyprland.focusedWorkspace?.id === workspace.id
 					text: "[  " + workspace.id + "  ]"
-					color: isActive ? "#cd73fd" : "#b9b9b9"
+					color: isActive ? lightPurple : lightGray
 					font { pixelSize: 14 }
 
 				}
@@ -68,15 +74,16 @@ PanelWindow {
 		anchors.verticalCenter: parent.verticalCenter
 		implicitHeight: 20
 		implicitWidth: 140
-		color: "#1f1f1d"
+		color: darkGray
 		border.width: 1
-		border.color: "#b9b9b9"
+		border.color: lightGray
+
+		SystemClock { id:clock; precision: SystemClock.Minutes }
 
 		Text {
 			anchors.centerIn: parent
-			SystemClock {precision: SystemClock.Minutes; id: clock }
 			text: Qt.formatDateTime(clock.date, "hh:mm | yyyy-MM-dd")
-			color: "#b9b9b9"
+			color: lightGray
 			font { pixelSize: 14 }
 		}
 	}
@@ -92,17 +99,19 @@ PanelWindow {
 		//Battery
 		Rectangle {
 			id: batteryText
-			color: "#1f1f1d"
+			color: darkGray
 			implicitHeight: 20
-			implicitWidth: 30
+			implicitWidth: 45
+			border.width: 1
+			border.color: lightGray
 			property var battery: UPower.displayDevice
-			visible: battery.isLaptopBattery ? true : false
+			//visible: battery.isLaptopBattery ? true : false
 
 			Text {
 				anchors.centerIn: parent
 				id: batteryPercentage
 				text: batteryText.battery.ready ? Math.round(batteryText.battery.percentage) + "%" : "..."
-				color: batteryText.battery < 15 ? "#f7768e" : "#b9b9b9"
+				color: batteryText.battery.percentage < 15 ? red : lightPurple
 				anchors.verticalCenter: parent.verticalCenter
 				font { pixelSize: 14 }
 			}
