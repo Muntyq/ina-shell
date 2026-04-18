@@ -97,23 +97,53 @@ PanelWindow {
 		anchors.rightMargin: 6
 
 		//Battery
-		Rectangle {
-			id: batteryText
-			color: darkGray
-			implicitHeight: 20
-			implicitWidth: 45
-			border.width: 1
-			border.color: lightGray
+		RowLayout {
+			id: batteryIndicator
 			property var battery: UPower.displayDevice
-			//visible: battery.isLaptopBattery ? true : false
+			property var batteryPercentage: Math.round(battery.percentage * 100)
+			property bool isBatteryLow: batteryPercentage <= 20? true : false
 
-			Text {
-				anchors.centerIn: parent
-				id: batteryPercentage
-				text: batteryText.battery.ready ? Math.round(batteryText.battery.percentage) + "%" : "..."
-				color: batteryText.battery.percentage < 15 ? red : lightPurple
-				anchors.verticalCenter: parent.verticalCenter
-				font { pixelSize: 14 }
+			//% Indicator
+			Rectangle {
+				color: darkGray
+				implicitHeight: 20
+				implicitWidth: 110
+				border.width: 1
+				border.color: lightGray
+				//visible: battery.isLaptopBattery ? true : false
+				function makeBar(batteryPercent) {
+					var barNum = 6
+					var barSegment = 100 / barNum
+					var barASCII = "" 
+					for ( let i = 0; i < barNum; i++) {
+						if ( batteryPercent < ( 20 * i ) ) {
+							barASCII = barASCII + " - "
+						} else { barASCII = barASCII + "#" }
+					}
+					return barASCII
+				}
+
+				Text {
+					anchors.centerIn: parent
+					property var test: batteryIndicator.battery.ready ? batteryIndicator.batteryPercentage + "%" : "..."
+					color: batteryIndicator.isBatteryLow ? red : lightPurple
+					anchors.verticalCenter: parent.verticalCenter
+					font { pixelSize: 14 }
+					function makeBar(batteryPercent) {
+						var barNum = 6
+						var barSegment = 100 / barNum
+						var barASCII = "" 
+						for ( let i = 0; i < barNum; i++) {
+							if ( batteryPercent < ( 20 * i ) ) {
+								barASCII = barASCII + " - "
+							} else { barASCII = barASCII + "#" }
+						}
+					return barASCII
+					}
+
+					property string batteryBar: makeBar(batteryIndicator.batteryPercentage)
+					text: test + " [" + batteryBar + "]"
+				}
 			}
 		}
 	}
