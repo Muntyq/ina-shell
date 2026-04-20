@@ -59,7 +59,7 @@ PanelWindow {
 					//property bool isActive: Hyprland.focusedWorkspace?.id === workspace.id
 					text: "[  " + workspace.id + "  ]"
 					color: isActive ? lightPurple : lightGray
-					font { pixelSize: 14 }
+					font.pixelSize: 14
 
 				}
 			}
@@ -84,7 +84,7 @@ PanelWindow {
 			anchors.centerIn: parent
 			text: Qt.formatDateTime(clock.date, "hh:mm | yyyy-MM-dd")
 			color: lightGray
-			font { pixelSize: 14 }
+			font.pixelSize: 14
 		}
 	}
 
@@ -103,46 +103,35 @@ PanelWindow {
 			property var batteryPercentage: Math.round(battery.percentage * 100)
 			property bool isBatteryLow: batteryPercentage <= 20? true : false
 
-			//% Indicator
 			Rectangle {
 				color: darkGray
 				implicitHeight: 20
 				implicitWidth: 110
 				border.width: 1
 				border.color: lightGray
-				//visible: battery.isLaptopBattery ? true : false
-				function makeBar(batteryPercent) {
-					var barNum = 6
-					var barSegment = 100 / barNum
-					var barASCII = "" 
-					for ( let i = 0; i < barNum; i++) {
-						if ( batteryPercent < ( 20 * i ) ) {
-							barASCII = barASCII + " - "
-						} else { barASCII = barASCII + "#" }
-					}
-					return barASCII
-				}
+			  //visible: batteryIndicator.battery.isLaptopBattery ? true : false
 
 				Text {
 					anchors.centerIn: parent
-					property var test: batteryIndicator.battery.ready ? batteryIndicator.batteryPercentage + "%" : "..."
+					property var batteryPercent: batteryIndicator.battery.ready ? batteryIndicator.batteryPercentage + "%" : "..."
 					color: batteryIndicator.isBatteryLow ? red : lightPurple
 					anchors.verticalCenter: parent.verticalCenter
-					font { pixelSize: 14 }
+					font.pixelSize: 14
+          font.family: "Hack Nerd Font Mono"
 					function makeBar(batteryPercent) {
 						var barNum = 6
 						var barSegment = 100 / barNum
 						var barASCII = "" 
 						for ( let i = 0; i < barNum; i++) {
 							if ( batteryPercent < ( 20 * i ) ) {
-								barASCII = barASCII + " - "
-							} else { barASCII = barASCII + "#" }
+								barASCII = barASCII + "░"
+							} else { barASCII = barASCII + "█" }
 						}
 					return barASCII
 					}
 
 					property string batteryBar: makeBar(batteryIndicator.batteryPercentage)
-					text: test + " [" + batteryBar + "]"
+					text: batteryPercent + " [" + batteryBar + "]"
 				}
 			}
 		}
