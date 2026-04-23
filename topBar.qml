@@ -3,6 +3,7 @@ import Quickshell.Wayland
 import Quickshell.Hyprland
 import QtQuick
 import QtQuick.Layouts
+import Quickshell.Io
 import Quickshell.Services.UPower
 
 PanelWindow {
@@ -16,6 +17,7 @@ PanelWindow {
 	property var lightGray: "#b9b9b9"
 	property var darkGray: "#1f1f1f"
 	property var red: "#f7768e"
+	property string hackFont: "Hack Nerd Font Mono"
 
 	Rectangle {
 		color: darkGray
@@ -37,7 +39,7 @@ PanelWindow {
 				id: workspaceButton
 				color: darkGray
 				implicitHeight: 20
-				implicitWidth: 40
+				implicitWidth: 45
 				border.width: 1
 				border.color: workspaceButtonInteract.containsMouse ? lightPurple : lightGray
 
@@ -57,23 +59,22 @@ PanelWindow {
 					//Get workspace id, if its active and print with correct color
 					//property var workspace: Hyprland.workspaces.values[index]
 					//property bool isActive: Hyprland.focusedWorkspace?.id === workspace.id
-					text: "[  " + workspace.id + "  ]"
+					text: "[ " + workspace.id + " ]"
+					font.family: hackFont
 					color: isActive ? lightPurple : lightGray
-					font.pixelSize: 14
+					font.pixelSize: 13
 
 				}
 			}
 		}
 	}
 
-	//Item { Layout.fillWidth: true }
-
 	//Clock
 	Rectangle {
 		anchors.centerIn: parent
 		anchors.verticalCenter: parent.verticalCenter
 		implicitHeight: 20
-		implicitWidth: 140
+		implicitWidth: 160
 		color: darkGray
 		border.width: 1
 		border.color: lightGray
@@ -83,12 +84,11 @@ PanelWindow {
 		Text {
 			anchors.centerIn: parent
 			text: Qt.formatDateTime(clock.date, "hh:mm | yyyy-MM-dd")
+			font.family: hackFont
 			color: lightGray
-			font.pixelSize: 14
+			font.pixelSize: 13
 		}
 	}
-
-	//Item { Layout.fillWidth: true }
 
 	//System info buttons
 	RowLayout {
@@ -106,7 +106,7 @@ PanelWindow {
 			Rectangle {
 				color: darkGray
 				implicitHeight: 20
-				implicitWidth: 110
+				implicitWidth: 100
 				border.width: 1
 				border.color: lightGray
 			  //visible: batteryIndicator.battery.isLaptopBattery ? true : false
@@ -116,8 +116,8 @@ PanelWindow {
 					property var batteryPercent: batteryIndicator.battery.ready ? batteryIndicator.batteryPercentage + "%" : "..."
 					color: batteryIndicator.isBatteryLow ? red : lightPurple
 					anchors.verticalCenter: parent.verticalCenter
-					font.pixelSize: 14
-          font.family: "Hack Nerd Font Mono"
+					font.pixelSize: 13
+					font.family: hackFont
 					function makeBar(batteryPercent) {
 						var barNum = 6
 						var barSegment = 100 / barNum
