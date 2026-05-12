@@ -4,25 +4,33 @@ import QtQuick.Layouts
 import "../widgets"
 
 Item {
-	RowLayout {
-		anchors.fill: parent
+	PanelWindow {
+		anchors.top: true
+		anchors.left: true
+		anchors.right: true
+		exclusiveZone: 30
+		implicitHeight: 30
 
-		Item {
-			Layout.fillWidth: true
-			Workspaces {}
-		}
+		RowLayout {
+			anchors.fill: parent
 
-		Item {
-			Layout.fillWidth: true
-			Clock {
-				anchors.centerIn: parent
+			Item {
+				Layout.fillWidth: true
+				Workspaces {}
 			}
 
-		}
+			Item {
+				Layout.fillWidth: true
+				Clock {
+					anchors.centerIn: parent
+				}
 
-		Item {
-			Layout.fillWidth: true
+			}
 
+			Item {
+				Layout.fillWidth: true
+
+			}
 		}
 	}
 }

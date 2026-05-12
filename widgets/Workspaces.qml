@@ -10,20 +10,22 @@ Item {
 		anchors.fill: parent
 
 		Repeater {
-
-			model: Hyprland.workspaces.values.length
+			property var activeWorkspaces: Hyprland.workspaces.values.length - 1
+			property var totalWorkspaces: Hyprland.workspaces.values[activeWorkspaces].id
+			model: totalWorkspaces
 
 			delegate: Rectangle {
 				implicitHeight: 20
 				implicitWidth: 20
 
 				required property int index
-				property var workspace: Hyprland.workspaces.values[index]
-				property bool isActive: workspace.id == Hyprland.focusedWorkspace.id
+				property bool isFocused: index + 1 == Hyprland.focusedWorkspace.id
+				property bool isActive: Hyprland.workspaces.values.some((wrksp) => wrksp.id === index + 1)
 
 				Text {
 					anchors.centerIn: parent
-					text: workspace.id
+					text: index + 1
+					color: isActive ? "#000000" : "#888888"
 				}
 
 				Rectangle {
@@ -31,7 +33,7 @@ Item {
 					anchors.left: parent.left
 					anchors.right: parent.right
 					implicitHeight: 7
-					visible: isActive
+					visible: isFocused
 					color: "#000000"
 				}
 			}
