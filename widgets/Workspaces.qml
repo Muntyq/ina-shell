@@ -4,8 +4,6 @@ import QtQuick.Layouts
 import Quickshell.Hyprland
 
 Item {
-	anchors.left: parent.left
-
 	RowLayout {
 		anchors.fill: parent
 

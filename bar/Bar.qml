@@ -21,15 +21,12 @@ Item {
 
 			Item {
 				Layout.fillWidth: true
-				Clock {
-					anchors.centerIn: parent
-				}
-
+				Clock {}
 			}
 
 			Item {
 				Layout.fillWidth: true
-
+				Battery {}
 			}
 		}
 	}
